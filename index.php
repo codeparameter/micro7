@@ -1,7 +1,8 @@
 <?php
 include "bootstrap/init.php";
-print_r($_ENV);
-echo '<hr>' . site_url('test') . '<hr>';
-echo $_SERVER['REQUEST_URI'] . '<hr>';
-echo current_route() . '<hr>';
-var_dump($request->params());
+nice_dump($_ENV);
+nice_dump(site_url('test'));
+nice_dump($_SERVER['REQUEST_URI']);
+nice_dump(current_route());
+nice_dd($request->params(), "I'm dead :)");
+echo "test";
