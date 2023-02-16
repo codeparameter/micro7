@@ -13,3 +13,6 @@ $dotenv = Dotenv\Dotenv::createImmutable(BASEPATH);
 $dotenv->load();
 
 include_all(BASEPATH . "/helpers");
+
+use App\Core\Request;
+$request = new Request();
