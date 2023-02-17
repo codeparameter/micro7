@@ -6,13 +6,15 @@ function include_all($route){
 }
 
 define('BASEPATH', __DIR__ . "/../");
+define('BASECONTROLLER', '\App\Controllers\\');
 
 include BASEPATH . "/vendor/autoload.php";
 
 $dotenv = Dotenv\Dotenv::createImmutable(BASEPATH);
 $dotenv->load();
 
-include_all(BASEPATH . "/helpers");
-
 use App\Core\Request;
 $request = new Request();
+
+include_all(BASEPATH . "/helpers");
+include BASEPATH . "/routes/web.php";
