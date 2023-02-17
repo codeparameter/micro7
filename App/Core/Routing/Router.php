@@ -5,7 +5,6 @@ namespace App\Core\Routing;
 class Router{
 
     private static $request;
-    private static $flag405 = false;
 
     private static function dispatch($action, $matches){
         if(is_callable($action)){
@@ -37,45 +36,38 @@ class Router{
 
     private static function dispatch404(){
         header("HTTP/1.0 404 Not Found");
-        // view
+        view("errors/404");
+        die();
     }
 
     private static function dispatch405(){
         header("HTTP/1.0 405 Method Not Allowed"); 
-        // view
+        view("errors/405");
+        die();
     }
 
     private static function match($route){
-        if(!in_array(self::$request->method(), $route['methods'])){
-            self::$flag405 = true;
-            return;
-        }
-
         $pattern = "/^" . str_replace(['/', '{', '}'], ['\/', '(?<', '>[-$\w]+)'], $route['uri']) . "$/";
 
         if(!preg_match($pattern, current_route(), $matches))
             return;
+
+        if(!in_array(self::$request->method(), $route['methods']))
+            self::dispatch405();
 
         if(is_null($route['action']) || empty($route['action']))
             nice_dd($route['action'], "action of this route is empty");
         
 
         $matches = array_filter($matches, function($k){ return !is_int($k); }, ARRAY_FILTER_USE_KEY);
-        
+
         self::dispatch($route['action'], $matches);
     }
 
     public static function find(){
         self::$request = _global('request');
-        foreach(Route::routes() as $route)
-            self::match($route);
-
-        if(self::$flag405)
-            self::dispatch405();
-            
+        array_map('self::match', Route::routes());
         self::dispatch404();
-
-        die();
     }
 
 }
