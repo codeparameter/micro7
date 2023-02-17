@@ -59,6 +59,9 @@ class Router{
         if(is_null($route['action']) || empty($route['action']))
             nice_dd($route['action'], "action of this route is empty");
         
+
+        $matches = array_filter($matches, function($k){ return !is_int($k); }, ARRAY_FILTER_USE_KEY);
+        
         self::dispatch($route['action'], $matches);
     }
 
