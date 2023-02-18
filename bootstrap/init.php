@@ -7,6 +7,7 @@ function include_all($route){
 
 define('BASEPATH', __DIR__ . "/../");
 define('BASECONTROLLER', '\App\Controllers\\');
+define('BASEMIDDLEWARE', '\App\Middleware\\');
 
 include BASEPATH . "/vendor/autoload.php";
 

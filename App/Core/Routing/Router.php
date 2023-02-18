@@ -61,6 +61,12 @@ class Router{
 
         $matches = array_filter($matches, function($k){ return !is_int($k); }, ARRAY_FILTER_USE_KEY);
 
+        foreach($route['middleWares'] as $middleWare){
+            $middleWare_class = BASEMIDDLEWARE . $middleWare;
+            $mid = new $middleWare_class();
+            $mid->handle();
+        }
+
         self::dispatch($route['action'], $matches);
     }
 
