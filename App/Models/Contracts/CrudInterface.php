@@ -16,7 +16,7 @@ interface CrudInterface{
 
     public function getAll(): array;
 
-    public function get(array $columns, $where = []): array;
+    public function get($columns, $where = []): array;
 
     // update records
 
