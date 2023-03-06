@@ -76,16 +76,20 @@ class  MysqlBaseModel extends BaseModel
 
     public function findAll(array $where): array
     {
-        return $this->connection->select($this->table, '*', $where);
+        return $this->get('*', $where);
     }
 
     public function getAll(): array
     {
-        return $this->connection->select($this->table, '*');
+        return $this->get('*');
     }
 
-    public function get(array $columns, $where = []): array
+    public function get($columns, $where = []): array
     {
+        $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+        $start = ($page - 1) * $this->pageSize;
+        $where['LIMIT'] = [$start, $this->pageSize];
+
         return $this->connection->select($this->table, $columns, $where);
     }
 
