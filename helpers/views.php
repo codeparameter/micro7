@@ -6,9 +6,9 @@ function view($path, $data = []){
 }
 
 function stylesheet($path){
-    echo '<link rel="stylesheet" href="assets/css/' . $path . '"/>';
+    echo '<link rel="stylesheet" href="' . site_url("assets/css/$path") . '"/>';
 }
 
 function script($path){
-    echo '<script src="assets/js/' . $path . '"></script>';
+    echo '<script src="' . site_url("assets/js/$path") . '"></script>';
 }
