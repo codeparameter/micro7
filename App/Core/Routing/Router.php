@@ -5,6 +5,7 @@ namespace App\Core\Routing;
 class Router{
 
     private static $request;
+    private static $flag405 = false;
 
     private static function dispatch($action, $matches){
         if(is_callable($action)){
@@ -52,8 +53,10 @@ class Router{
         if(!preg_match($pattern, current_route(), $matches))
             return;
 
-        if(!in_array(self::$request->method(), $route['methods']))
-            self::dispatch405();
+        if(!in_array(self::$request->method(), $route['methods'])){
+            self::$flag405 = true;
+            return;
+        }
 
         if(is_null($route['action']) || empty($route['action']))
             nice_dd($route['action'], "action of this route is empty");
@@ -75,6 +78,8 @@ class Router{
     public static function find(){
         self::$request = _global('request');
         array_map('self::match', Route::routes());
+        if(self::$flag405)
+            self::dispatch405();
         self::dispatch404();
     }
 
