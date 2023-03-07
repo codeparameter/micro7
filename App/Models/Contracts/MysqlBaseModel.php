@@ -100,6 +100,7 @@ class  MysqlBaseModel extends BaseModel
         $where['LIMIT'] = [$start, $this->pageSize];
 
         return [
+            'currentPage' => $page,
             'totalPages' => $totalPages,
             'data' => $this->connection->select($this->table, $columns, $where)
         ];
