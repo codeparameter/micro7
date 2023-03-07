@@ -2,16 +2,23 @@
 
 namespace App\Middleware;
 
-use App\Middleware\Contract\MiddlewareInterface;
+use App\Middleware\Contract\BaseMiddleware;
 
-class GlobalMiddleware implements MiddlewareInterface{
-    public function handle(){
-        return;
+class GlobalMiddleware extends BaseMiddleware{
+
+    public function __construct()
+    {
+        parent::__construct();
     }
 
-    public function sanitizeGetParams(){
-        foreach($_GET as $key => $value){
-            $_GET[$key] = xss_clean($value);
-        }
+    public function handle(){
+        $this->sanitizeParams();
+    }
+
+    public function sanitizeParams(){
+        $params = [];
+        foreach($this->request->getParams() as $key => $value)
+            $params[$key] = xss_clean($value);
+        $this->request->setParams($params);
     }
 }

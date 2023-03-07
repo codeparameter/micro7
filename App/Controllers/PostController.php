@@ -1,8 +1,14 @@
 <?php
 
 namespace App\Controllers;
+use App\Controllers\Contract\BaseController;
+class PostController extends BaseController{
 
-class PostController{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(){
         view('posts', [
             'posts' => [

@@ -8,6 +8,12 @@ abstract class BaseModel implements CrudInterface{
     protected $primaryKey = 'id';
     protected $pageSize = 10;
     protected $attrs = [];
+    protected $request;
+
+    public function __construct()
+    {
+        $this->request = _global('request');
+    }
 
     public function getAttr($key)
     {

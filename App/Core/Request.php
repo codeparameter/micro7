@@ -29,7 +29,7 @@ class Request{
         return $this->method;
     }
 
-    public function params(){
+    public function getParams(){
         return $this->params;
     }
 
@@ -44,5 +44,9 @@ class Request{
     public function redirect($route){
         header("Location: " . site_url($route));
         die();
+    }
+
+    public function setParams($params){
+        $this->params = $params;
     }
 }

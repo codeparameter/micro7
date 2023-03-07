@@ -8,6 +8,9 @@ class  MysqlBaseModel extends BaseModel
 {
     public function __construct($id)
     {
+
+        parent::__construct();
+
         $this->connection = new Medoo([
             // [required]
             'type' => 'mysql',
@@ -86,7 +89,7 @@ class  MysqlBaseModel extends BaseModel
 
     public function get($columns, $where = []): array
     {
-        $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+        $page = ($this->request->isset('page') && is_numeric($this->request->param('page'))) ? $this->request->param('page') : 1;
         $start = ($page - 1) * $this->pageSize;
         $where['LIMIT'] = [$start, $this->pageSize];
 
