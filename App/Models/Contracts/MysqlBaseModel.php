@@ -124,6 +124,11 @@ class  MysqlBaseModel extends BaseModel
 
     // delete
 
+    public function deleteOne($id)
+    {
+        return $this->connection->delete($this->table, ['ContactID' => $id])->rowCount();
+    }
+
     public function delete(array $where): int
     {
         return $this->connection->delete($this->table, $where)->rowCount();
