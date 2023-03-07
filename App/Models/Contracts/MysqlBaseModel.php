@@ -89,11 +89,20 @@ class  MysqlBaseModel extends BaseModel
 
     public function get($columns, $where = []): array
     {
+        return $this->connection->select($this->table, $columns, $where);
+    }
+
+    public function chunk($columns, $where = []): array
+    {
+        $totalPages = ceil($this->count($where) / $this->pageSize);
         $page = ($this->request->isset('page') && is_numeric($this->request->param('page'))) ? $this->request->param('page') : 1;
         $start = ($page - 1) * $this->pageSize;
         $where['LIMIT'] = [$start, $this->pageSize];
 
-        return $this->connection->select($this->table, $columns, $where);
+        return [
+            'totalPages' => $totalPages,
+            'data' => $this->connection->select($this->table, $columns, $where)
+        ];
     }
 
     // update records
