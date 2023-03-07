@@ -11,3 +11,17 @@ function current_url(){
 function current_route(){
     return strtok($_SERVER['REQUEST_URI'], '?');
 }
+
+function add_url_params($newParams){
+    $params = $_REQUEST;
+    foreach($newParams as $key => $value)
+        $params[$key] = $value;
+    $query = [];
+    foreach($params as $key => $value)
+        $query[] = "$key=$value";
+    return current_route() . '?' . join('&', $query);
+}
+
+function setPage($page){
+    return add_url_params(['page' => $page]);
+}
