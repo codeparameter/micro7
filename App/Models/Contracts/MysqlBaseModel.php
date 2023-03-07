@@ -134,6 +134,13 @@ class  MysqlBaseModel extends BaseModel
         return $this->delete([$this->primaryKey => $record_id]);
     }
 
+    // has
+
+    public function has(array $where = [])
+    {
+        return $this->connection->has($this->table, $where);
+    }
+
     // count
 
     public function count(array $where): int
